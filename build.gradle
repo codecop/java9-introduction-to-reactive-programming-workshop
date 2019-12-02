@@ -6,8 +6,8 @@ plugins {
 group 'java12-introduction-to-reactive-programming-workshop'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 12
-targetCompatibility = 12
+sourceCompatibility = 9
+targetCompatibility = 9
 
 repositories {
     mavenCentral()
