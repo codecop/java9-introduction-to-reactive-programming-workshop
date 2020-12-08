@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.com/mtumilowicz/java12-introduction-to-functional-programming-workshop.svg?branch=master)](https://travis-ci.com/mtumilowicz/java12-introduction-to-functional-programming-workshop)
+[![Build Status](https://travis-ci.com/mtumilowicz/java9-introduction-to-functional-programming-workshop.svg?branch=master)](https://travis-ci.com/mtumilowicz/java9-introduction-to-functional-programming-workshop)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-# java12-introduction-to-reactive-programming-workshop
+# java9-introduction-to-reactive-programming-workshop
 * References
     * [Out-of-the-box Reactive Streams with Java 9](https://www.youtube.com/watch?v=COgktgJmP_k)
     * [Java Streams vs Reactive Streams: Which, When, How, and Why? by Venkat Subramaniam](https://www.youtube.com/watch?v=kG2SEcl1aMM)
@@ -21,7 +21,7 @@
     * http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/schedulers/Schedulers.html
 
 ## preface
-The main goal of this project is to explore basic features of 
+The main goal of this project is to explore basic features of
 `reactive streams` introduced in `Java 9`:
 * **Publisher**
 * **Subscriber**
@@ -198,44 +198,44 @@ then closes the connection and disconnects from the server
     ```
 
 ## definitions
-* **[Flow.Publisher](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Flow.Publisher.html)** - 
-source of data  
-* **[Flow.Subscriber](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Flow.Subscriber.html)** - 
-destination of data  
-* **[Flow.Subscription](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Flow.Subscription.html)** - 
-message control linking a `Flow.Publisher` and `Flow.Subscriber` 
-(`Subscriber` signal demand to `Publisher` using `Subscription`)  
-* **[Flow.Processor](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Flow.Processor.html)** - 
-a component that acts as both a `Subscriber` and `Publisher` (can 
-consume input and produce output).  
-* **[Flow.SubmissionPublisher](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/SubmissionPublisher.html)** - 
-the only one implementation (in `JDK`) of `Flow.Publisher`; has ability to asynchronously issue submitted (non-null) 
+* **[Flow.Publisher](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Flow.Publisher.html)** -
+source of data
+* **[Flow.Subscriber](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Flow.Subscriber.html)** -
+destination of data
+* **[Flow.Subscription](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Flow.Subscription.html)** -
+message control linking a `Flow.Publisher` and `Flow.Subscriber`
+(`Subscriber` signal demand to `Publisher` using `Subscription`)
+* **[Flow.Processor](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Flow.Processor.html)** -
+a component that acts as both a `Subscriber` and `Publisher` (can
+consume input and produce output).
+* **[Flow.SubmissionPublisher](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/SubmissionPublisher.html)** -
+the only one implementation (in `JDK`) of `Flow.Publisher`; has ability to asynchronously issue submitted (non-null)
 items to current subscribers until it is closed.
 
 ## data flow
 ```
 PUBLISHER -> PROCESSOR -> PROCESSOR -> SUBSCRIBER
 ```
-We have two scenarios:  
+We have two scenarios:
 * `Publisher` is slow, `Subscriber` is fast (best scenario)
-* `Publisher` is fast, `Subscriber` is slow (the `Subscriber` must deal 
-with excessive data - the most naive approach is just to drop all 
+* `Publisher` is fast, `Subscriber` is slow (the `Subscriber` must deal
+with excessive data - the most naive approach is just to drop all
 excessive data - so the data will be irrevitable)
 
-Note that if we have multiple `subscribers` and one `publisher` - they 
+Note that if we have multiple `subscribers` and one `publisher` - they
 are receiving elements in the same order.
 
 ## interaction steps
 1. implement `Flow.Publisher` (using, for example `SubmissionPublisher<T>`) and `Flow.Subscriber`
-1. the subscriber attempts to subscribe to the publisher by calling the 
+1. the subscriber attempts to subscribe to the publisher by calling the
 `subscribe(Flow.Subscriber<? super T> subscriber)
     * take a look at `SubmissionPublisher.subscribe(Subscriber<? super T> subscriber)`
 method of the publisher
-    * success: the publisher asynchronously calls the `onSubscribe(Flow.Subscription subscription)` 
+    * success: the publisher asynchronously calls the `onSubscribe(Flow.Subscription subscription)`
     method of the subscriber
-    * failure: `onError(Throwable throwable)` method of the subscriber is called 
+    * failure: `onError(Throwable throwable)` method of the subscriber is called
     with an `IllegalStateException`, and the interaction ends
-1. the subscriber sends a request to the publisher for `N` items calling the `request(N)` 
+1. the subscriber sends a request to the publisher for `N` items calling the `request(N)`
 on the `Subscription`
 1. multiple requests are send regardless if earlier are already fulfilled (non-blocking)
 1. the publisher calls the `onNext(T item)` method of the subscriber and sends an item in each call
@@ -245,7 +245,7 @@ the end of stream, and interaction ends
     effectively a push stream
 1. if the publisher encounters an error - calls `onError(Throwable throwable)` on subscriber
 1. the subscriber can cancel its subscription by calling the `cancel()` method on its subscription
-    * if a subscription is cancelled, the interaction ends 
+    * if a subscription is cancelled, the interaction ends
     * it is possible for the subscriber to receive items after
     cancellation if there were pending requests before
 
@@ -264,8 +264,8 @@ public void onSubscribe(Flow.Subscription subscription) {
 }
 ```
 * because we want our `Subscriber` talk to only one `Publisher` - 
-`Subscription` represents a link between single `Subscriber` and single 
-`Publisher` so you have to cancel the incoming one (if we already have 
+`Subscription` represents a link between single `Subscriber` and single
+`Publisher` so you have to cancel the incoming one (if we already have
 one, we don't accept any furthers)
     * think about subscriber as a radio receiver, subscriptions as radio waves, and publisher as radio station
 
