@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.com/mtumilowicz/java9-introduction-to-functional-programming-workshop.svg?branch=master)](https://travis-ci.com/mtumilowicz/java9-introduction-to-functional-programming-workshop)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 # java9-introduction-to-reactive-programming-workshop
