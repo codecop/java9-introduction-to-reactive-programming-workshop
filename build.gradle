@@ -1,9 +1,8 @@
 plugins {
     id 'java'
-    id 'groovy'
 }
 
-group 'java12-introduction-to-reactive-programming-workshop'
+group 'java9-introduction-to-reactive-programming-workshop'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 9
@@ -14,5 +13,4 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.5.7'
 }
