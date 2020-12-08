@@ -1,10 +1,18 @@
 # Project exclude paths
+
+# Gradle
 /.gradle/
 /build/
+
+# IDEA
 /out/
 /.idea/
 
+# Eclipse
 /.settings/
 /.classpath
 /.project
 /bin/
+
+# Maven
+/target/
