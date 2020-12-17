@@ -3,7 +3,7 @@ package reactive.simplified;
 import java.util.concurrent.Flow;
 
 abstract class AbstractProcessor<In, Out> implements Flow.Processor<In, Out> {
-    private Flow.Subscription subscription;
+    protected Flow.Subscription subscription;
 
     @Override
     public void onSubscribe(Flow.Subscription subscription) {
